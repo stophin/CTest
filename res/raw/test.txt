@@ -1,0 +1,11 @@
+1|A|a.一,一个,一只,一件.| I don't care what a car looks like as long as it gets me from A to B./r/n     我倒不在乎汽车的样子, 只要能把我从一处载到另一处就行了./r/n Would you do me a favor?/r/n     你能帮我一个忙吗？/r/n
+2|a.m.|上午<br>abbr. (ante meridiem的缩写)上午,午前<br>ad. 上午,由午夜至中午|
+3|abacus|n. 算盘| I can use abacus skillfully./r/n     我会熟练地打算盘。/r/n The clerk reckoned the expenditure last week with an abacus./r/n     那位职员用算盘将上周的花销计算出来。/r/n
+4|abandon|v. 放弃,遗弃,沉溺| The cruel man abandoned his wife and child./r/n     那个狠心的男人抛弃了他的妻儿。/r/n They had abandoned all hope./r/n     他们已经放弃了一切希望。/r/n
+5|abatement|n. 减少,减轻,缓和| A noise abatement notice is served on the club./r/n     向俱乐部发停止大声喧哗的通知。/r/n
+6|abbreviate|v. 缩写,使...简略| In writing, the title `Doctor' is abbreviated to `Dr'./r/n     在书写时, Doctor头衔的缩写是Dr./r/n
+7|abbreviation|n. 缩写| Scratch the subject of defence and acronym, abbreviation, and buzzwords fly out./r/n     话题触及国防，缩合字，缩写字和行话就满天飞。/r/n An abbreviation for formula calculation language, a high-level programming language not too widely used./r/n     公式计算语言的简称，应用不太广泛的一种高级程序设计语言。/r/n
+8|ABC|n. 基本要素,字母表<br>abbr. 美国广播公司<br>abbr. 澳大利亚广播公司| Shipment to be effected on a container liner of ABC Line./r/n     交由ABC班轮公司的集装箱班轮运载。/r/n Inquire firm work jointly with abc company impression quite reliable president rather calculating./r/n     咨询公司与ABC公司合作，印象中此公司值得信赖。该公司董事长式于心计。/r/n
+9|abdomen|n. 腹部| The spider has a bulgy abdomen./r/n     蜘蛛长着凸出的腹部。/r/n He always feels pain in his abdomen./r/n     他的腹部经常疼痛。/r/n
+10|abdominal|a. 腹部的| I'll have an abdominal operation tomorrow./r/n     我明天要做个腹部手术。/r/n She had abdominal pains yesterday./r/n     她昨天腹痛。/r/n
+11|abend|异常结束|

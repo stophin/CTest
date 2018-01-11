@@ -223,7 +223,7 @@ char * Start() {
 }
 
 int Iterator(char * buff) {
-	
+
 	int i, j;
 	char * english, *chinese, *example;
 	english = NULL;
@@ -261,11 +261,31 @@ int Iterator(char * buff) {
 	wordRef.example = example;
 	wordRef.english_inv = NULL;
 	wordRef.word_class = NULL;
-	
+
 	if (man.add(&man, &wordRef) == NULL) {
 		return 0;
 	}
 	return 1;
+}
+
+int Traverse(int limit) {
+	res.clear(&res);
+
+	WordLink * link = man.link;
+	int found = 0;
+	if (link) {
+		do {
+			res.insertLink(&res, link, NULL, NULL);
+			found++;
+			if (found > limit) {
+				break;
+			}
+
+			link = man.next(&man, link);
+		} while (link && link != man.link);
+	}
+
+	return found;
 }
 
 int Search(char * word) {
@@ -276,14 +296,15 @@ int Search(char * word) {
 	if (link) {
 		do {
 			if (CompWordInv(link->english, word)) {
-				found ++;
+				found++;
 				res.insertLink(&res, link, NULL, NULL);
-			} else if (found) {
+			}
+			else if (found) {
 				break;
 			}
 
 			link = man.next(&man, link);
-		}while(link && link != man.link);
+		} while (link && link != man.link);
 	}
 
 	return found;
@@ -308,7 +329,7 @@ char * Result() {
 
 
 			link = res.next(&res, link);
-		}while(link && link != res.link);
+		} while (link && link != res.link);
 	}
 
 	return spool;
@@ -321,13 +342,13 @@ char * Result_Trans(int pos) {
 	int i = 0;
 	if (link) {
 		//do {
-			if (link->chinese) {
-				i += WordCopyLong(spool + i, link->chinese);
-			}
+		if (link->chinese) {
+			i += WordCopyLong(spool + i, link->chinese);
+		}
 		//	i += WordCopyLong(spool + i, "->");
-			if (i >= MAX_W * 10 - 1) {
-				//break;
-			}
+		if (i >= MAX_W * 10 - 1) {
+			//break;
+		}
 
 
 		//	link = res.next(&res, link);
@@ -342,13 +363,13 @@ char * Result_Examp(int pos) {
 	int i = 0;
 	if (link) {
 		//do {
-			if (link->example) {
-				i += WordCopyLongLong(spool + i, link->example);
-			}
+		if (link->example) {
+			i += WordCopyLongLong(spool + i, link->example);
+		}
 		//	i += WordCopyLong(spool + i, "->");
-			if (i >= MAX_W * 10 - 1) {
-				//break;
-			}
+		if (i >= MAX_W * 10 - 1) {
+			//break;
+		}
 
 
 		//	link = res.next(&res, link);

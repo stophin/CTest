@@ -25,7 +25,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	Start();
 
-	char filename[] = "../../../../res/raw/test.txt";
+	char filename[] = "../../../../res/raw/cet6.txt";
 	FILE * fp;
 	fp = fopen(filename, "r");
 	if (!fp) {
@@ -44,6 +44,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			break;
 		}
 		printf("\r--->%d loaded", ++count);
+		if (count > 1000) {
+			break;
+		}
 	}
 	printf("\n");
 

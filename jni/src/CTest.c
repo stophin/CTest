@@ -48,6 +48,15 @@ int WordCopyLongLong(char * dest, char * src) {
 	dest[i] = '\0';
 	return i;
 }
+int ValueCopy(char * dest, unsigned int value) {
+	int i = 0;
+	if (dest == NULL) {
+		dest[0] = '\0';
+		return 0;
+	}
+	i = sprintf_s(dest, 64, "%u", value);
+	return i;
+}
 int CompWordInv(char * word, char * key) {
 	int i;
 
@@ -73,6 +82,8 @@ struct WordLink {
 	char chinese[255];
 	char example[1024];
 	char english_inv[20];
+	int data_offset;
+	int data_size;
 
 	void(*set)(WordLink * that, WordRef * word);
 };
@@ -84,6 +95,8 @@ void WordLink_set(WordLink * that, WordRef * word) {
 		if (word->chinese) WordCopyLong(that->chinese, word->chinese);
 		if (word->word_class) WordCopy(that->word_class, word->word_class);
 		if (word->example) WordCopyLongLong(that->example, word->example);
+		that->data_offset = word->data_offset;
+		that->data_size = word->data_size;
 
 		for (i = 0; that->english[i] != '\0'; i++);
 		for (j = 0, i--; j <= i; j++) {
@@ -196,9 +209,7 @@ void _WordMan(WordMan * that, int index) {
 }
 WordMan man;
 WordMan res;
-WordRef wordRef;
-Word words[MAX_W];  //将词典数组设置成全局的结构体数组  
-int wordsNum = 0;    //词典中的词条数目  
+WordRef wordRef; 
 char spool[MAX_W * 10];
 
 double CTest_getSum(CTest * that, double sum) {
@@ -266,6 +277,110 @@ int Iterator(char * buff) {
 		return 0;
 	}
 	return 1;
+}
+// 长整型大小端互换
+typedef unsigned int uint32;
+#define BigLittleSwap32(A)  ((((uint32)(A) & 0xff000000) >> 24) | \
+							(((uint32)(A) & 0x00ff0000) >> 8) | \
+							(((uint32)(A) & 0x0000ff00) << 8) | \
+							(((uint32)(A) & 0x000000ff) << 24))
+/*
+	data format
+	word_str;  // a utf-8 string terminated by '\0'.
+	word_data_offset;  // word data's offset in .dict file
+	word_data_size;  // word data's total size in .dict file
+*/
+int Prepare(char * buff, int len) {
+
+	int i, j;
+	char * english, *chinese, *example;
+	english = NULL;
+	chinese = NULL;
+	example = NULL;
+
+	for (i = 0; i < len; i++) {
+		english = &buff[i];
+
+		for (j = 0; english[j] != '\0' && j < len - 8; j++);
+
+		wordRef.english = english;
+		//wordRef.data_offset = ((unsigned int)(english[j + 4]));
+		//wordRef.data_size = ((unsigned int)english[j + 8]);
+		wordRef.data_offset = english[j + 4] + (english[j + 3] << 8) + (english[j + 2] << 16) + (english[j + 1] << 24);
+		wordRef.data_size = english[j + 8] + (english[j + 7] << 8) + (english[j + 6] << 16) + (english[j + 5] << 24);
+
+
+		if (man.add(&man, &wordRef) == NULL) {
+			return 0;
+		}
+
+		i += j + 8;
+	}
+	return 1;
+}
+/*
+	data format:
+	word_1_data_1_type; // a single char identifying the data type
+	word_1_data_1_data; // the data
+	word_1_data_2_type;
+	word_1_data_2_data;
+	...... // the number of data entries for each word is determined by
+	// word_data_size in .idx file
+	word_2_data_1_type;
+	word_2_data_1_data;
+*/
+int Manipluate(char * buff, int len, WordLink * link) {
+	int i, j;
+	char * english, *chinese, *example;
+	english = NULL;
+	chinese = NULL;
+	example = NULL;
+
+	for (i = 0; i < len; i++) {
+		english = &buff[i];
+
+		char type = (char)*english;
+		english++;
+		for (j = 0; english[j] != '\0' && j < len - 2; j++);
+		switch (type) {
+		case 'm':
+			chinese = english;
+			WordCopyLong(link->chinese, chinese);
+			break;
+		default:
+			chinese = &buff[i];
+			WordCopyLong(link->chinese, chinese);
+			break;
+		//TODO
+		}
+
+		i += j + 1;
+	}
+	return 1;
+}
+
+char * Result_Prepare() {
+	WordLink * link = res.link;
+	int i = 0;
+	if (link) {
+		do {
+			if (link->english) {
+				i += WordCopy(spool + i, link->english);
+			}
+			i += WordCopyLong(spool + i, "->");
+			i += ValueCopy(spool + i, link->data_offset);
+			i += WordCopyLong(spool + i, "-->");
+			i += ValueCopy(spool + i, link->data_size);
+			if (i >= MAX_W * 10 - 1) {
+				break;
+			}
+
+
+			link = res.next(&res, link);
+		} while (link && link != res.link);
+	}
+
+	return spool;
 }
 
 int Traverse(int limit) {

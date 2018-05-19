@@ -5,19 +5,13 @@
 //定义词条类  
 typedef struct
 {
-	char english[20];
-	char word_class[10];
-	char chinese[255];
-	char example[1024];
-	char english_inv[20];
-} Word;
-typedef struct
-{
 	char* english;
 	char* word_class;
 	char* chinese;
 	char* example;
 	char* english_inv;
+	unsigned int data_offset;
+	unsigned int data_size;
 } WordRef;
 
 
@@ -33,9 +27,14 @@ double CTest_getTest(CTest * that, double line, double row);
 double CTest_getSum(CTest * that, double sum);
 void _CTest(CTest * that);
 
+typedef struct WordLink WordLink;
+
 char * Start();
+int Prepare(char * buff, int len);
+int Manipluate(char * buff, int len, WordLink * link);
 int Iterator(char * buff);
 int Search(char * word);
+char * Result_Prepare();
 char * Result();
 char * Result_Trans(int pos);
 char * Result_Examp(int pos);

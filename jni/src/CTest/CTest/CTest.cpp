@@ -21,16 +21,121 @@ wchar_t * tUnicode2UTF8(const char * str, wchar_t * wstr) {
 	return wstr;
 }
 
+int loadStarDictPrepare() {
+
+	//char filename[] = "test_dict.idx";
+	char filename[] = "langdao/langdao-ec-gb.idx";
+	FILE * fp;
+	//fp = fopen(filename, "r");
+	fopen_s(&fp, filename, "rb");
+	if (!fp) {
+		printf("No file: %s\n", filename);
+		_getch();
+		return 1;
+	}
+	setlocale(LC_ALL, "chs");
+	char temp[MAX_W];
+	wchar_t wtemp[MAX_W];
+	int count = 0;
+	while (!feof(fp)) {
+		//no terminal read
+		int len = fread(temp, sizeof(char), MAX_W - 1, fp);
+		count += len;
+		//fgets(temp, MAX_W, fp);
+		//wcout << tUnicode2UTF8(temp, wtemp);
+		if (Prepare(temp, len) == 0) {
+			break;
+		}
+		printf("\r--->%d loaded", count);
+		if (count > 10000) {
+			break;
+		}
+	}
+	fclose(fp);
+	printf("\n");
+
+	printf("****************************************\n");
+	count = Traverse(100);
+	printf("%d found:\n", count);
+	if (count > 0) {
+		wcout << tUnicode2UTF8(Result_Prepare(), wtemp);
+		printf("\n");
+	}
+	printf("****************************************\n");
+}
+
+int loadStarDictAfter() {
+
+	//char filename[] = "test_dict.idx";
+	char filename[] = "langdao/langdao-ec-gb";
+	FILE * fp;
+	//fp = fopen(filename, "r");
+	fopen_s(&fp, filename, "r");
+	if (!fp) {
+		printf("No file: %s\n", filename);
+		_getch();
+		return 1;
+	}
+	setlocale(LC_ALL, "chs");
+	char temp[MAX_W];
+	wchar_t wtemp[MAX_W];
+	int count = 0;
+	WordLink * link = man.link;
+	if (link) {
+		do {
+
+			if (link && link->data_offset > 0 && link->data_size > 0) {
+				fseek(fp, link->data_offset, 0);
+				if (!feof(fp)) {
+					int len = fread(temp, sizeof(char), link->data_size < MAX_W ? link->data_size : MAX_W, fp);
+					if (len < MAX_W) {
+						temp[len] = '\0';
+					}
+					//tUnicode2UTF8(temp, wtemp);
+					count += len;
+					if (Manipluate(temp, len, link) == 0) {
+						break;
+					}
+					printf("\r--->%d loaded", count);
+					if (count > 10000) {
+						break;
+					}
+				}
+			}
+
+			link = man.next(&man, link);
+		} while (link && link != man.link);
+	}
+	fclose(fp);
+	printf("\n");
+
+	printf("****************************************\n");
+	count = Traverse(100);
+	printf("%d found:\n", count);
+	if (count > 0) {
+		wcout << tUnicode2UTF8(Result(), wtemp);
+		printf("\n");
+	}
+	printf("****************************************\n");
+
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Start();
 
+	loadStarDictPrepare();
+	loadStarDictAfter();
+
+	_getch();
+	
 	char filename[] = "../../../../res/raw/cet6.txt";
 	FILE * fp;
-	fp = fopen(filename, "r");
+	//fp = fopen(filename, "r");
+	fopen_s(&fp, filename, "r");
 	if (!fp) {
 		printf("No file: %s\n", filename);
-		getch(); 
+		_getch();
 		return 1;
 	}
 	setlocale(LC_ALL, "chs");
@@ -48,6 +153,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			break;
 		}
 	}
+	fclose(fp);
 	printf("\n");
 
 	printf("****************************************\n");
@@ -79,7 +185,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		printf("\n");
 	}
 
-	getch();
+	_getch();
 	return 0;
 }
 

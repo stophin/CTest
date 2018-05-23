@@ -7,6 +7,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +48,7 @@ public class MainActivity extends Activity {
 	private SearchView searchView;
 	private TextView detailView;
 	private TextView mainRes;
+	 static final int MAX_W = 20000;
 	
 	private ProgressDialog progressDialog = null;
 	
@@ -94,6 +99,7 @@ public class MainActivity extends Activity {
 		        InputStream is = null;
 		 		int count = 0;
 		        try {
+			 		 /*
 		        	is=MainActivity.this.getResources().openRawResource(R.raw.cet6);
 		        	InputStreamReader ir = new InputStreamReader(is, "UTF-8");
 			 		
@@ -111,8 +117,89 @@ public class MainActivity extends Activity {
 					    	 handler.sendMessage(msg);
 				    	 }
 				     }
+				     */
+		        	is=MainActivity.this.getResources().openRawResource(R.raw.langdao_ec_gb_idx);
+	 				byte[] bs = new byte[MAX_W]; 
+	 				  Charset cs = Charset.forName ("UTF-8");
+	 		          ByteBuffer bb = ByteBuffer.allocate (bs.length);
+			 		 
+				     char temp[] = new char[MAX_W];
+				     int offset = 0;
+				     int size = 0;
+				     
+				     int len;
+				     while((len = is.read(bs, 0, MAX_W - 1)) > 0) {
+				    	 bb.clear();
+		 		          bb.put (bs);
+		 		          bb.flip ();
+		 		          CharBuffer cb = cs.decode (bb);
+		 		          for (int i = 0; i < len && i < MAX_W; i++) {
+		 		        	  temp[i] = (char)bs[i];
+		 		          }
+				    	 //offset += len;
+				    	 if (NanoJNIJNI.Prepare(bs,  len) == 0) {
+				    		 break;
+				    	 }
+				    	 if (count ++ > 0) {// % 100 == 0) {
+					    	 Message msg = new Message();
+					    	 Bundle bundle = new Bundle();
+					    	 bundle.putInt("count", count++);
+					    	 msg.setData(bundle);
+					    	 handler.sendMessage(msg);
+				    	 }
+				    	 if (count > 5) {
+				    		 break;
+				    	 }
+				     }
+				     
+
+			        is=MainActivity.this.getResources().openRawResource(R.raw.langdao_ec_gb);
+			        count = 0;
+				 	if (NanoJNIJNI.IteratorStart() == 0) {
+				 		while(true) {
+				 			if (NanoJNIJNI.IteratorFetch() == 0) {
+				 				offset = NanoJNIJNI.IteratorGet(0);
+				 				size = NanoJNIJNI.IteratorGet(1);
+				 				long skipped = 0;
+				 				is.reset();
+				 				while((skipped = is.skip(offset)) < offset) {
+				 					offset = (int) (offset - skipped); 
+				 				}
+				 				len = is.read(bs, 0, size < MAX_W  -1 ? size: MAX_W -1);
+				 				if (len > 0) {
+					 		          bb.clear();
+					 		          bb.put (bs);
+					 		          bb.flip ();
+					 		          CharBuffer cb = cs.decode (bb);
+					 		          for (int i = 0; i < len && i < MAX_W; i++) {
+					 		        	  temp[i] = (char)bs[i];
+					 		          }
+					 		          if (len < MAX_W) {
+					 		        	  bs[len] = '\0';
+					 		          }
+					 				if (NanoJNIJNI.Manipluate(bs, len, 0) == 0) {
+					 					break;
+					 				}
+				 				}
+				 			}
+					    	 if (count ++ > 0) {//% 100 == 0) {
+						    	 Message msg = new Message();
+						    	 Bundle bundle = new Bundle();
+						    	 bundle.putInt("count", count++);
+						    	 msg.setData(bundle);
+						    	 handler.sendMessage(msg);
+					    	 }
+					    	 if (count > 10) {
+					    		 //break;
+					    	 }
+
+				 			if (NanoJNIJNI.IteratorNext() == 1) {
+				 				break;
+				 			}
+				 		}
+				 	}
 		        } catch(Exception e) {
-		        	
+		        	e.printStackTrace();
 		        } finally{
 			    	 Message msg = new Message();
 			    	 Bundle bundle = new Bundle();
@@ -149,8 +236,16 @@ public class MainActivity extends Activity {
 			     for (i = 0; i < list.length; i++) {
 			    	 Map<String, Object> map = new HashMap<String, Object>();
 			    	 String[] temp = list[i].split("->");
-			    	 map.put("list", temp[0]);
-			    	 map.put("trans", adapterTrans( temp[1]));
+			    	 if (temp.length > 0) {
+				    	 map.put("list", temp[0]);
+			    	 } else {
+			    		 map.put("list", "None");
+			    	 }
+			    	 if (temp.length > 1) {
+				    	 map.put("trans", adapterTrans( temp[1]));
+			    	 } else {
+			    		 map.put("trans", "None");
+			    	 }
 			    	 records.add(map);
 			     }
 			     

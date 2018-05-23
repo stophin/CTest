@@ -11,6 +11,8 @@
 #include <iostream>
 using namespace std;
 
+#define _ANDROID_
+
 #include "../../CTest.c"
 #include "../../MultiLink.c"
 
@@ -25,6 +27,7 @@ int loadStarDictPrepare() {
 
 	//char filename[] = "test_dict.idx";
 	char filename[] = "langdao/langdao-ec-gb.idx";
+	//char filename[] = "quickEngZh/quick_eng-zh_CN.idx";
 	FILE * fp;
 	//fp = fopen(filename, "r");
 	fopen_s(&fp, filename, "rb");
@@ -40,14 +43,15 @@ int loadStarDictPrepare() {
 	while (!feof(fp)) {
 		//no terminal read
 		int len = fread(temp, sizeof(char), MAX_W - 1, fp);
-		count += len;
+		//count += len;
 		//fgets(temp, MAX_W, fp);
 		//wcout << tUnicode2UTF8(temp, wtemp);
+		tUnicode2UTF8(temp, wtemp);
 		if (Prepare(temp, len) == 0) {
 			break;
 		}
 		printf("\r--->%d loaded", count);
-		if (count > 10000) {
+		if (count++ > 5) {
 			break;
 		}
 	}
@@ -68,9 +72,10 @@ int loadStarDictAfter() {
 
 	//char filename[] = "test_dict.idx";
 	char filename[] = "langdao/langdao-ec-gb";
+	//char filename[] = "quickEngZh/quick_eng-zh_CN.dict";
 	FILE * fp;
 	//fp = fopen(filename, "r");
-	fopen_s(&fp, filename, "r");
+	fopen_s(&fp, filename, "rb");
 	if (!fp) {
 		printf("No file: %s\n", filename);
 		_getch();
@@ -80,6 +85,7 @@ int loadStarDictAfter() {
 	char temp[MAX_W];
 	wchar_t wtemp[MAX_W];
 	int count = 0;
+	/*
 	WordLink * link = man.link;
 	if (link) {
 		do {
@@ -91,9 +97,9 @@ int loadStarDictAfter() {
 					if (len < MAX_W) {
 						temp[len] = '\0';
 					}
-					//tUnicode2UTF8(temp, wtemp);
+					tUnicode2UTF8(temp, wtemp);
 					count += len;
-					if (Manipluate(temp, len, link) == 0) {
+					if (Manipluate(temp, len, (int)link) == 0) {
 						break;
 					}
 					printf("\r--->%d loaded", count);
@@ -106,6 +112,36 @@ int loadStarDictAfter() {
 			link = man.next(&man, link);
 		} while (link && link != man.link);
 	}
+	*/
+	int offset, size;
+	if (IteratorStart() == 0) {
+		while (true) {
+			if (IteratorFetch() == 0) {
+				offset = IteratorGet(0);
+				size = IteratorGet(1);
+				fseek(fp, offset, 0);
+				if (!feof(fp)) {
+					int len = fread(temp, sizeof(char), size < MAX_W - 1 ? size : MAX_W - 1, fp);
+					if (len < MAX_W) {
+						temp[len] = '\0';
+					}
+					tUnicode2UTF8(temp, wtemp);
+					//count += len;
+					if (Manipluate(temp, len, 0) == 0) {
+						break;
+					}
+					printf("\r--->%d loaded", count);
+					if (count++ > 10) {
+						break;
+					}
+				}
+			}
+			if (IteratorNext() == 1) {
+				break;
+			}
+		}
+	}
+
 	fclose(fp);
 	printf("\n");
 
@@ -117,7 +153,12 @@ int loadStarDictAfter() {
 		printf("\n");
 	}
 	printf("****************************************\n");
-
+	count = Search("y");
+	printf("%d found:\n", count);
+	if (count> 0) {
+		wcout << tUnicode2UTF8(Result(), wtemp);
+		printf("\n");
+	}
 }
 
 int _tmain(int argc, _TCHAR* argv[])

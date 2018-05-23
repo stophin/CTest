@@ -29,12 +29,40 @@ public class NanoJNI implements NanoJNIConstants {
     return NanoJNIJNI.Start();
   }
 
+  public static int Prepare(byte[] buff, int len) {
+    return NanoJNIJNI.Prepare(buff, len);
+  }
+
+  public static int Manipluate(byte[] buff, int len, int plink) {
+    return NanoJNIJNI.Manipluate(buff, len, plink);
+  }
+
+  public static int IteratorStart() {
+    return NanoJNIJNI.IteratorStart();
+  }
+
+  public static int IteratorFetch() {
+    return NanoJNIJNI.IteratorFetch();
+  }
+
+  public static int IteratorGet(int index) {
+    return NanoJNIJNI.IteratorGet(index);
+  }
+
+  public static int IteratorNext() {
+    return NanoJNIJNI.IteratorNext();
+  }
+
   public static int Iterator(String buff) {
     return NanoJNIJNI.Iterator(buff);
   }
 
   public static int Search(String word) {
     return NanoJNIJNI.Search(word);
+  }
+
+  public static String Result_Prepare() {
+    return NanoJNIJNI.Result_Prepare();
   }
 
   public static String Result() {

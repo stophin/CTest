@@ -3,6 +3,24 @@
 
 #include "MultiLink.h"
 
+
+#ifndef _ANDROID_
+#define _ANDROID_
+#include<android/log.h>
+#define TAG "myDemo-jni" // 这个是自定义的LOG的标识   
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__) // 定义LOGD类型   
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO,TAG ,__VA_ARGS__) // 定义LOGI类型   
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN,TAG ,__VA_ARGS__) // 定义LOGW类型   
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR,TAG ,__VA_ARGS__) // 定义LOGE类型   
+#define LOGF(...) __android_log_print(ANDROID_LOG_FATAL,TAG ,__VA_ARGS__) // 定义LOGF类型
+#else
+#define LOGD(...) printf(__VA_ARGS__) // 定义LOGD类型   
+#define LOGI(...) printf(__VA_ARGS__) // 定义LOGI类型   
+#define LOGW(...) printf(__VA_ARGS__) // 定义LOGW类型   
+#define LOGE(...) printf(__VA_ARGS__) // 定义LOGE类型   
+#define LOGF(...) printf(__VA_ARGS__) // 定义LOGF类型
+#endif
+
 int WordCopy(char * dest, char * src) {
 	int i = 0;
 	if (dest == NULL || src == NULL) {
@@ -54,7 +72,7 @@ int ValueCopy(char * dest, unsigned int value) {
 		dest[0] = '\0';
 		return 0;
 	}
-	i = sprintf_s(dest, 64, "%u", value);
+	dest[i] = value;
 	return i;
 }
 int CompWordInv(char * word, char * key) {
@@ -309,6 +327,7 @@ int Prepare(char * buff, int len) {
 		wordRef.data_offset = english[j + 4] + (english[j + 3] << 8) + (english[j + 2] << 16) + (english[j + 1] << 24);
 		wordRef.data_size = english[j + 8] + (english[j + 7] << 8) + (english[j + 6] << 16) + (english[j + 5] << 24);
 
+		LOGD("###%s->%d->%d", wordRef.english, wordRef.data_offset, wordRef.data_size);
 
 		if (man.add(&man, &wordRef) == NULL) {
 			return 0;
@@ -318,6 +337,57 @@ int Prepare(char * buff, int len) {
 	}
 	return 1;
 }
+/*
+this iterator machnism only support sigle thread
+*/
+WordLink * _iterator = NULL;
+union {
+	struct {
+		int offset;
+		int size;
+	};
+	int _union[2];
+} _iteratorData;
+int IteratorStart() {
+	_iterator = man.link;
+	if (_iterator) {
+		return 0;
+	}
+	return 1;
+}
+int IteratorFetch() {
+	if (_iterator && _iterator->data_offset > 0  && _iterator->data_size > 0) {
+		_iteratorData.offset = _iterator->data_offset;
+		_iteratorData.size = _iterator->data_size;
+		return 0;
+	}
+	else {
+		_iteratorData.offset = 0;
+		_iteratorData.size = 0;
+		return 1;
+	}
+}
+int IteratorGet(int index) {
+	if (index < 0 || index >= 2) {
+		return 0;
+	}
+	return _iteratorData._union[index];
+}
+int IteratorNext() {
+	if (_iterator) {
+		_iterator = man.next(&man, _iterator);
+		if (_iterator && _iterator != man.link) {
+			return 0;
+		}
+		else {
+			return 1;
+		}
+	}
+	else {
+		return 1;
+	}
+}
+
 /*
 	data format:
 	word_1_data_1_type; // a single char identifying the data type
@@ -329,7 +399,14 @@ int Prepare(char * buff, int len) {
 	word_2_data_1_type;
 	word_2_data_1_data;
 */
-int Manipluate(char * buff, int len, WordLink * link) {
+int Manipluate(char * buff, int len, int plink) {
+	WordLink * link = (WordLink *)plink;
+	if (link == NULL) {
+		link = _iterator;
+	}
+	if (link == NULL) {
+		return 1;
+	}
 	int i, j;
 	char * english, *chinese, *example;
 	english = NULL;
@@ -345,6 +422,7 @@ int Manipluate(char * buff, int len, WordLink * link) {
 		switch (type) {
 		case 'm':
 			chinese = english;
+
 			WordCopyLong(link->chinese, chinese);
 			break;
 		default:
@@ -356,6 +434,8 @@ int Manipluate(char * buff, int len, WordLink * link) {
 
 		i += j + 1;
 	}
+
+	LOGD("###%s->%s", link->english, link->chinese);
 	return 1;
 }
 
@@ -425,7 +505,7 @@ int Search(char * word) {
 	return found;
 }
 
-char * Result() {
+const char * Result() {
 	WordLink * link = res.link;
 	int i = 0;
 	if (link) {

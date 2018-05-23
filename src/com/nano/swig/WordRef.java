@@ -75,6 +75,22 @@ public class WordRef {
     return NanoJNIJNI.WordRef_english_inv_get(swigCPtr, this);
   }
 
+  public void setData_offset(long value) {
+    NanoJNIJNI.WordRef_data_offset_set(swigCPtr, this, value);
+  }
+
+  public long getData_offset() {
+    return NanoJNIJNI.WordRef_data_offset_get(swigCPtr, this);
+  }
+
+  public void setData_size(long value) {
+    NanoJNIJNI.WordRef_data_size_set(swigCPtr, this, value);
+  }
+
+  public long getData_size() {
+    return NanoJNIJNI.WordRef_data_size_get(swigCPtr, this);
+  }
+
   public WordRef() {
     this(NanoJNIJNI.new_WordRef(), true);
   }

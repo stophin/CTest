@@ -56,3 +56,29 @@ Right click project name->Android Tools->Export Singned/Unsigned Application Pac
 to export standard apk file in /bin/ folder.  
   
   
+Problems:  
+1.Multiple markers at this line  
+  - Syntax error  
+  - Type 'JNIEnv' could not be resolved  
+  - Type 'JNICALL' could not be resolved  
+  When encountered this problem, use Project->Properties->C/C++ General->  
+  Path and Symbols, and select include tab, Add->  
+  $Android_NDK_HOME/platforms/android-14/arch-arm/usr/include  
+  
+2.You may need to set proxy to dl.google.com/dl-ssl.google.com  
+	Please use the following proxy:  
+	mirrors.neusoft.edu.cn:80  
+	
+3.Once you generated java & cxx file using swig, all the char * type in c/cpp file  
+   will be transformed to jstring in cxx, and String in java by default.  
+   When you actually needed a byte[] instead of a String type in java  
+   (eg. when reading raw file in binary format),  
+   you can do the following:  
+   - change cxx file: jstring ---> jbyteArray  
+   - jenv->GetStringUTFChars ---> jenv->GetByteArrayElements  
+   - jenv->ReleaseStringUTFChars ---> jenv->ReleaseByteArrayElements  
+   - note the parameters are different  
+   - change java file: String ---> byte[]  
+   - redo step 5 to rebuild proper lib for jni  
+   
+  

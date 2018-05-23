@@ -1,7 +1,6 @@
 #ifndef _TEST_H_
 #define _TEST_H_
 
-
 //定义词条类  
 typedef struct
 {
@@ -27,15 +26,19 @@ double CTest_getTest(CTest * that, double line, double row);
 double CTest_getSum(CTest * that, double sum);
 void _CTest(CTest * that);
 
-typedef struct WordLink WordLink;
-
 char * Start();
 int Prepare(char * buff, int len);
-int Manipluate(char * buff, int len, WordLink * link);
+int Manipluate(char * buff, int len, int plink);
+
+int IteratorStart();
+int IteratorFetch();
+int IteratorGet(int index);
+int IteratorNext();
+
 int Iterator(char * buff);
 int Search(char * word);
 char * Result_Prepare();
-char * Result();
+const char * Result();
 char * Result_Trans(int pos);
 char * Result_Examp(int pos);
 #endif

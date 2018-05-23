@@ -253,233 +253,6 @@ SWIGEXPORT jlong JNICALL Java_com_nano_swig_NanoJNIJNI_getuid(JNIEnv *jenv, jcla
 }
 
 
-SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1english_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
-  Word *arg1 = (Word *) 0 ;
-  char *arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return ;
-  }
-  {
-    if(arg2) {
-      strncpy((char*)arg1->english, (const char *)arg2, 20-1);
-      arg1->english[20-1] = 0;
-    } else {
-      arg1->english[0] = 0;
-    }
-  }
-  
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1english_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  Word *arg1 = (Word *) 0 ;
-  char *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  result = (char *)(char *) ((arg1)->english);
-  if (result) jresult = jenv->NewStringUTF((const char *)result);
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1word_1class_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
-  Word *arg1 = (Word *) 0 ;
-  char *arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return ;
-  }
-  {
-    if(arg2) {
-      strncpy((char*)arg1->word_class, (const char *)arg2, 10-1);
-      arg1->word_class[10-1] = 0;
-    } else {
-      arg1->word_class[0] = 0;
-    }
-  }
-  
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1word_1class_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  Word *arg1 = (Word *) 0 ;
-  char *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  result = (char *)(char *) ((arg1)->word_class);
-  if (result) jresult = jenv->NewStringUTF((const char *)result);
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1chinese_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
-  Word *arg1 = (Word *) 0 ;
-  char *arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return ;
-  }
-  {
-    if(arg2) {
-      strncpy((char*)arg1->chinese, (const char *)arg2, 255-1);
-      arg1->chinese[255-1] = 0;
-    } else {
-      arg1->chinese[0] = 0;
-    }
-  }
-  
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1chinese_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  Word *arg1 = (Word *) 0 ;
-  char *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  result = (char *)(char *) ((arg1)->chinese);
-  if (result) jresult = jenv->NewStringUTF((const char *)result);
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1example_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
-  Word *arg1 = (Word *) 0 ;
-  char *arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return ;
-  }
-  {
-    if(arg2) {
-      strncpy((char*)arg1->example, (const char *)arg2, 1024-1);
-      arg1->example[1024-1] = 0;
-    } else {
-      arg1->example[0] = 0;
-    }
-  }
-  
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1example_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  Word *arg1 = (Word *) 0 ;
-  char *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  result = (char *)(char *) ((arg1)->example);
-  if (result) jresult = jenv->NewStringUTF((const char *)result);
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1english_1inv_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
-  Word *arg1 = (Word *) 0 ;
-  char *arg2 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return ;
-  }
-  {
-    if(arg2) {
-      strncpy((char*)arg1->english_inv, (const char *)arg2, 20-1);
-      arg1->english_inv[20-1] = 0;
-    } else {
-      arg1->english_inv[0] = 0;
-    }
-  }
-  
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-}
-
-
-SWIGEXPORT jstring JNICALL Java_com_nano_swig_NanoJNIJNI_Word_1english_1inv_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
-  jstring jresult = 0 ;
-  Word *arg1 = (Word *) 0 ;
-  char *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(Word **)&jarg1; 
-  result = (char *)(char *) ((arg1)->english_inv);
-  if (result) jresult = jenv->NewStringUTF((const char *)result);
-  return jresult;
-}
-
-
-SWIGEXPORT jlong JNICALL Java_com_nano_swig_NanoJNIJNI_new_1Word(JNIEnv *jenv, jclass jcls) {
-  jlong jresult = 0 ;
-  Word *result = 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  result = (Word *)new Word();
-  *(Word **)&jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_delete_1Word(JNIEnv *jenv, jclass jcls, jlong jarg1) {
-  Word *arg1 = (Word *) 0 ;
-  
-  (void)jenv;
-  (void)jcls;
-  arg1 = *(Word **)&jarg1; 
-  delete arg1;
-}
-
-
 SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_WordRef_1english_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2) {
   WordRef *arg1 = (WordRef *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -681,6 +454,62 @@ SWIGEXPORT jstring JNICALL Java_com_nano_swig_NanoJNIJNI_WordRef_1english_1inv_1
   arg1 = *(WordRef **)&jarg1; 
   result = (char *) ((arg1)->english_inv);
   if (result) jresult = jenv->NewStringUTF((const char *)result);
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_WordRef_1data_1offset_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  WordRef *arg1 = (WordRef *) 0 ;
+  unsigned int arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(WordRef **)&jarg1; 
+  arg2 = (unsigned int)jarg2; 
+  if (arg1) (arg1)->data_offset = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_nano_swig_NanoJNIJNI_WordRef_1data_1offset_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  WordRef *arg1 = (WordRef *) 0 ;
+  unsigned int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(WordRef **)&jarg1; 
+  result = (unsigned int) ((arg1)->data_offset);
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_nano_swig_NanoJNIJNI_WordRef_1data_1size_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  WordRef *arg1 = (WordRef *) 0 ;
+  unsigned int arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(WordRef **)&jarg1; 
+  arg2 = (unsigned int)jarg2; 
+  if (arg1) (arg1)->data_size = arg2;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_nano_swig_NanoJNIJNI_WordRef_1data_1size_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  WordRef *arg1 = (WordRef *) 0 ;
+  unsigned int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(WordRef **)&jarg1; 
+  result = (unsigned int) ((arg1)->data_size);
+  jresult = (jlong)result; 
   return jresult;
 }
 
@@ -888,6 +717,104 @@ SWIGEXPORT jstring JNICALL Java_com_nano_swig_NanoJNIJNI_Start(JNIEnv *jenv, jcl
   return jresult;
 }
 
+SWIGEXPORT jint JNICALL Java_com_nano_swig_NanoJNIJNI_Prepare(JNIEnv *jenv, jclass jcls, jbyteArray jarg1, jint jarg2) {
+  jint jresult = 0 ;
+  char *arg1 = (char *) 0 ;
+  int arg2 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    //arg1 = (char *)jenv->GetStringUTFChars(jarg1, 0);
+	arg1 =(char *)jenv->GetByteArrayElements(jarg1, 0);
+    if (!arg1) return 0;
+  }
+  arg2 = (int)jarg2; 
+  result = (int)Prepare(arg1,arg2);
+  jresult = (jint)result; 
+  //if (arg1) jenv->ReleaseStringUTFChars(jarg1, (const char *)arg1);
+  if (arg1) jenv->ReleaseByteArrayElements(jarg1, (jbyte *)arg1, 0);
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_nano_swig_NanoJNIJNI_Manipluate(JNIEnv *jenv, jclass jcls, jbyteArray jarg1, jint jarg2, jint jarg3) {
+  jint jresult = 0 ;
+  char *arg1 = (char *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = 0;
+  if (jarg1) {
+    //arg1 = (char *)jenv->GetStringUTFChars(jarg1, 0);
+	arg1 = (char *)jenv->GetByteArrayElements(jarg1, 0);
+    if (!arg1) return 0;
+  }
+  arg2 = (int)jarg2; 
+  arg3 = (int)jarg3; 
+  result = (int)Manipluate(arg1,arg2,arg3);
+  jresult = (jint)result; 
+  //if (arg1) jenv->ReleaseStringUTFChars(jarg1, (const char *)arg1);
+  if (arg1) jenv->ReleaseByteArrayElements(jarg1, (jbyte *)arg1, 0);
+  return jresult;
+}
+
+
+
+SWIGEXPORT jint JNICALL Java_com_nano_swig_NanoJNIJNI_IteratorStart(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (int)IteratorStart();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_nano_swig_NanoJNIJNI_IteratorFetch(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (int)IteratorFetch();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_nano_swig_NanoJNIJNI_IteratorGet(JNIEnv *jenv, jclass jcls, jint jarg1) {
+  jint jresult = 0 ;
+  int arg1 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = (int)jarg1; 
+  result = (int)IteratorGet(arg1);
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_nano_swig_NanoJNIJNI_IteratorNext(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (int)IteratorNext();
+  jresult = (jint)result; 
+  return jresult;
+}
+
 
 SWIGEXPORT jint JNICALL Java_com_nano_swig_NanoJNIJNI_Iterator(JNIEnv *jenv, jclass jcls, jstring jarg1) {
   jint jresult = 0 ;
@@ -923,6 +850,18 @@ SWIGEXPORT jint JNICALL Java_com_nano_swig_NanoJNIJNI_Search(JNIEnv *jenv, jclas
   result = (int)Search(arg1);
   jresult = (jint)result; 
   if (arg1) jenv->ReleaseStringUTFChars(jarg1, (const char *)arg1);
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_com_nano_swig_NanoJNIJNI_Result_1Prepare(JNIEnv *jenv, jclass jcls) {
+  jstring jresult = 0 ;
+  char *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (char *)Result_Prepare();
+  if (result) jresult = jenv->NewStringUTF((const char *)result);
   return jresult;
 }
 

@@ -10,18 +10,6 @@ package com.nano.swig;
 
 public class NanoJNIJNI {
   public final static native long getuid();
-  public final static native void Word_english_set(long jarg1, Word jarg1_, String jarg2);
-  public final static native String Word_english_get(long jarg1, Word jarg1_);
-  public final static native void Word_word_class_set(long jarg1, Word jarg1_, String jarg2);
-  public final static native String Word_word_class_get(long jarg1, Word jarg1_);
-  public final static native void Word_chinese_set(long jarg1, Word jarg1_, String jarg2);
-  public final static native String Word_chinese_get(long jarg1, Word jarg1_);
-  public final static native void Word_example_set(long jarg1, Word jarg1_, String jarg2);
-  public final static native String Word_example_get(long jarg1, Word jarg1_);
-  public final static native void Word_english_inv_set(long jarg1, Word jarg1_, String jarg2);
-  public final static native String Word_english_inv_get(long jarg1, Word jarg1_);
-  public final static native long new_Word();
-  public final static native void delete_Word(long jarg1);
   public final static native void WordRef_english_set(long jarg1, WordRef jarg1_, String jarg2);
   public final static native String WordRef_english_get(long jarg1, WordRef jarg1_);
   public final static native void WordRef_word_class_set(long jarg1, WordRef jarg1_, String jarg2);
@@ -32,6 +20,10 @@ public class NanoJNIJNI {
   public final static native String WordRef_example_get(long jarg1, WordRef jarg1_);
   public final static native void WordRef_english_inv_set(long jarg1, WordRef jarg1_, String jarg2);
   public final static native String WordRef_english_inv_get(long jarg1, WordRef jarg1_);
+  public final static native void WordRef_data_offset_set(long jarg1, WordRef jarg1_, long jarg2);
+  public final static native long WordRef_data_offset_get(long jarg1, WordRef jarg1_);
+  public final static native void WordRef_data_size_set(long jarg1, WordRef jarg1_, long jarg2);
+  public final static native long WordRef_data_size_get(long jarg1, WordRef jarg1_);
   public final static native long new_WordRef();
   public final static native void delete_WordRef(long jarg1);
   public final static native void CTest_constructor_set(long jarg1, long jarg2);
@@ -48,8 +40,15 @@ public class NanoJNIJNI {
   public final static native double CTest_getSum(long jarg1, double jarg2);
   public final static native void _CTest(long jarg1);
   public final static native String Start();
+  public final static native int Prepare(byte[] jarg1, int jarg2);
+  public final static native int Manipluate(byte[] jarg1, int jarg2, int jarg3);
+  public final static native int IteratorStart();
+  public final static native int IteratorFetch();
+  public final static native int IteratorGet(int jarg1);
+  public final static native int IteratorNext();
   public final static native int Iterator(String jarg1);
   public final static native int Search(String jarg1);
+  public final static native String Result_Prepare();
   public final static native String Result();
   public final static native String Result_Trans(int jarg1);
   public final static native String Result_Examp(int jarg1);
